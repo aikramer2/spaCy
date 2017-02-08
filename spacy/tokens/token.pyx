@@ -477,23 +477,24 @@ cdef class Token:
             if 'conjuncts' in self.doc.user_token_hooks:
                 yield from self.doc.user_token_hooks['conjuncts'](self)
             else:
-                if token.dep == CONJ or any(child.dep == CONJ for child in token.children):
-                    yield from conjuncts_in_supertree_reversed(self)
-                    yield from conjuncts_in_subtree(self)
+                if self.dep == CONJ or any(child.dep == CONJ for child in self.children):
+                    yield from self.conjuncts_in_supertree_reversed(self)
+                    yield from self.conjuncts_in_subtree(self)
 
-            def conjuncts_in_subtree(token):
+            def conjuncts_in_subtree(self,token):
                 for child in token.children:
                     if child.dep == CONJ:
                         yield child
-                        yield from conjuncts_in_subtree(child)
+                        yield from self.conjuncts_in_subtree(child)
 
-            def conjuncts_in_supertree(token):
+            def conjuncts_in_supertree(self,token):
                 yield token
                 if token.dep == CONJ:
-                    yield from conjuncts_in_supertree(token)
+                    yield from self.conjuncts_in_supertree(token)
 
 
-            def conjuncts_in_supertree_reversed(token):
+            def conjuncts_in_supertree_reversed(self,token):
+                yield from list(self.conjuncts_in_supertree(token))[::-1]
 
     property ent_type:
         def __get__(self):
