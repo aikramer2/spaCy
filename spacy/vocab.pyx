@@ -671,21 +671,22 @@ def write_binary_vectors(in_loc, out_loc):
     with bz2.BZ2File(in_loc, 'r') as file_:
         for line in file_:
             pieces = line.split()
-            word = pieces.pop(0)
-            mem = Address(len(pieces), sizeof(float))
-            vec = <float*>mem.ptr
-            for i, val_str in enumerate(pieces):
-                vec[i] = float(val_str)
+            if pieces:
+                word = pieces.pop(0)
+                mem = Address(len(pieces), sizeof(float))
+                vec = <float*>mem.ptr
+                for i, val_str in enumerate(pieces):
+                    vec[i] = float(val_str)
 
-            word_len = len(word)
-            vec_len = len(pieces)
+                word_len = len(word)
+                vec_len = len(pieces)
 
-            out_file.write_from(&word_len, 1, sizeof(word_len))
-            out_file.write_from(&vec_len, 1, sizeof(vec_len))
+                out_file.write_from(&word_len, 1, sizeof(word_len))
+                out_file.write_from(&vec_len, 1, sizeof(vec_len))
 
-            chars = <char*>word
-            out_file.write_from(chars, len(word), sizeof(char))
-            out_file.write_from(vec, vec_len, sizeof(float))
+                chars = <char*>word
+                out_file.write_from(chars, len(word), sizeof(char))
+                out_file.write_from(vec, vec_len, sizeof(float))
 
 
 class LookupError(Exception):
