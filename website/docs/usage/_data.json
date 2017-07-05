@@ -2,7 +2,10 @@
     "sidebar": {
         "Get started": {
             "Installation": "./",
+            "Models": "models",
             "Lightning tour": "lightning-tour",
+            "Command line": "cli",
+            "Troubleshooting": "troubleshooting",
             "Resources": "resources"
         },
         "Workflows": {
@@ -17,8 +20,10 @@
             "Word vectors": "word-vectors-similarities",
             "Deep learning": "deep-learning",
             "Custom tokenization": "customizing-tokenizer",
+            "Adding languages": "adding-languages",
             "Training": "training",
-            "Adding languages": "adding-languages"
+            "Training NER": "training-ner",
+            "Saving & loading": "saving-loading"
         },
         "Examples": {
             "Tutorials": "tutorials",
@@ -28,11 +33,27 @@
 
     "index": {
         "title": "Install spaCy",
+        "quickstart": true,
+        "next": "models"
+    },
+
+    "models": {
+        "title": "Models",
         "next": "lightning-tour"
     },
 
     "lightning-tour": {
         "title": "Lightning tour",
+        "next": "cli"
+    },
+
+    "cli": {
+        "title": "Command Line Interface",
+        "next": "troubleshooting"
+    },
+
+    "troubleshooting": {
+        "title": "Troubleshooting",
         "next": "resources"
     },
 
@@ -83,11 +104,21 @@
 
     "customizing-tokenizer": {
         "title": "Customizing the tokenizer",
-        "next": "training"
+        "next": "adding-languages"
     },
 
     "training": {
-        "title": "Training the tagger, parser and entity recognizer"
+        "title": "Training spaCy's statistical models",
+        "next": "saving-loading"
+    },
+
+    "training-ner": {
+        "title": "Training the Named Entity Recognizer",
+        "next": "saving-loading"
+    },
+
+    "saving-loading": {
+        "title": "Saving and loading models"
     },
 
     "pos-tagging": {
@@ -104,6 +135,11 @@
         "title": "Showcase",
 
         "libraries": {
+            "spacy_api": {
+                "url": "https://github.com/kootenpv/spacy_api",
+                "author": "Pascal van Kooten",
+                "description": "Server/client to load models in a separate, dedicated process."
+            },
             "spacy-nlp": {
                 "url": "https://github.com/kengz/spacy-nlp",
                 "author": "Wah Loon Keng",
@@ -113,6 +149,11 @@
                 "url": "https://github.com/jgontrum/spacy-api-docker",
                 "author": "Johannes Gontrum",
                 "description": "spaCy accessed by a REST API, wrapped in a Docker container."
+            },
+            "spacy-nlp-zeromq": {
+                "url": "https://github.com/pasupulaphani/spacy-nlp-docker",
+                "author": "Phaninder Pasupula",
+                "description": "Docker image exposing spaCy with ZeroMQ bindings."
             },
             "textacy": {
                 "url": "https://github.com/chartbeat-labs/textacy",
@@ -128,6 +169,11 @@
                 "url": "https://github.com/golastmile/rasa_nlu",
                 "author": "LASTMILE",
                 "description": "High level APIs for building your own language parser using existing NLP and ML libraries."
+            },
+            "spacyr": {
+                "url": "https://github.com/kbenoit/spacyr",
+                "author": "Kenneth Benoit",
+                "description": "An R wrapper for spaCy."
             }
         },
         "visualizations": {
@@ -189,6 +235,12 @@
                 "url": "https://books.google.de/books?id=vbQlDQAAQBAJ",
                 "author": "Andreas C. Müller and Sarah Guido (O'Reilly, 2016)",
                 "description": "Andreas is a lead developer of Scikit-Learn, and Sarah is a lead data scientist at Mashable. We're proud to get a mention."
+            },
+
+            "Text Analytics with Python: A Practical Real-World Approach to Gaining Actionable Insights from your Data": {
+                "url": "https://www.amazon.com/Text-Analytics-Python-Real-World-Actionable/dp/148422387X",
+                "author": "Dipanjan Sarkar (Apress / Springer, 2016)",
+                "description": "Derive useful insights from your data using Python. Learn the techniques related to natural language processing and text analytics, and gain the skills to know which technique is best suited to solve a particular problem."
             }
         },
         "research": {
@@ -312,10 +364,28 @@
                 "url": "https://medium.com/redsift-outbox/what-time-cc9ce0c2aed2",
                 "author": "Chris Savvopoulos",
                 "tags": ["ner"]
+            },
+
+            "Advanced text analysis with spaCy and Scikit-Learn": {
+                "url": "https://github.com/JonathanReeve/advanced-text-analysis-workshop-2017/blob/master/advanced-text-analysis.ipynb",
+                "author": "Jonathan Reeve",
+                "tags": ["jupyter", "scikit-learn"]
             }
         },
 
         "code": {
+            "Training a new entity type": {
+                "url": "https://github.com/explosion/spaCy/blob/master/examples/training/train_new_entity_type.py",
+                "author": "Matthew Honnibal",
+                "tags": ["ner", "training"]
+            },
+
+            "Training an NER system from scratch": {
+                "url": "https://github.com/explosion/spaCy/blob/master/examples/training/train_ner_standalone.py",
+                "author": "Matthew Honnibal",
+                "tags": ["ner", "training"]
+            },
+
             "Information extraction": {
                 "url": "https://github.com/explosion/spaCy/blob/master/examples/information_extraction.py",
                 "author": "Matthew Honnibal",

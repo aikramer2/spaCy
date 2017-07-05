@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 
 from ...vocab import Vocab
 from ...tokenizer import Tokenizer
-from ...util import utf8open
+from ... import util
 
-from os import path
 import pytest
 
 
@@ -31,7 +30,7 @@ def test_tokenizer_handles_punct(tokenizer):
 
 
 def test_tokenizer_handles_digits(tokenizer):
-    exceptions = ["hu"]
+    exceptions = ["hu", "bn"]
     text = "Lorem ipsum: 1984."
     tokens = tokenizer(text)
 
@@ -41,10 +40,16 @@ def test_tokenizer_handles_digits(tokenizer):
         assert tokens[3].text == "1984"
 
 
-@pytest.mark.parametrize('text', ["google.com", "python.org", "spacy.io", "explosion.ai"])
+@pytest.mark.parametrize('text', ["google.com", "python.org", "spacy.io", "explosion.ai", "http://www.google.com"])
 def test_tokenizer_keep_urls(tokenizer, text):
     tokens = tokenizer(text)
     assert len(tokens) == 1
+
+
+@pytest.mark.parametrize('text', ["NASDAQ:GOOG"])
+def test_tokenizer_colons(tokenizer, text):
+    tokens = tokenizer(text)
+    assert len(tokens) == 3
 
 
 @pytest.mark.parametrize('text', ["hello123@example.com", "hi+there@gmail.it", "matt@explosion.ai"])
@@ -69,8 +74,8 @@ Phasellus tincidunt, augue quis porta finibus, massa sapien consectetur augue, n
 
 @pytest.mark.parametrize('file_name', ["sun.txt"])
 def test_tokenizer_handle_text_from_file(tokenizer, file_name):
-    loc = path.join(path.dirname(__file__), file_name)
-    text = utf8open(loc).read()
+    loc = util.ensure_path(__file__).parent / file_name
+    text = loc.open('r', encoding='utf8').read()
     assert len(text) != 0
     tokens = tokenizer(text)
     assert len(tokens) > 100

@@ -31,6 +31,12 @@ def test_spans_root(doc):
     assert span.root.text == 'sentence'
     assert span.root.head.text == 'is'
 
+def test_spans_string_fn(doc):
+    span = doc[0:4]
+    assert len(span) == 4
+    assert span.text == 'This is a sentence'
+    assert span.upper_ == 'THIS IS A SENTENCE'
+    assert span.lower_ == 'this is a sentence'
 
 def test_spans_root2(en_tokenizer):
     text = "through North and South Carolina"
@@ -71,3 +77,15 @@ def test_spans_override_sentiment(en_tokenizer):
     assert doc[:2].sentiment == 10.0
     assert doc[-2:].sentiment == 10.0
     assert doc[:-1].sentiment == 10.0
+
+
+def test_spans_are_hashable(en_tokenizer):
+    """Test spans can be hashed."""
+    text = "good stuff bad stuff"
+    tokens = en_tokenizer(text)
+    span1 = tokens[:2]
+    span2 = tokens[2:4]
+    assert hash(span1) != hash(span2)
+    span3 = tokens[0:2]
+    assert hash(span3) == hash(span1)
+ 

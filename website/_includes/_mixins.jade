@@ -47,6 +47,14 @@ mixin api(path)
         |  #[+icon("book", 18).o-icon--inline.u-color-subtle]
 
 
+//- Help icon with tooltip
+    tooltip - [string] Tooltip text
+
+mixin help(tooltip)
+    span(data-tooltip=tooltip)&attributes(attributes)
+        +icon("help", 16).i-icon--inline
+
+
 //- Aside for text
     label - [string] aside title (optional)
 
@@ -65,6 +73,17 @@ mixin aside-code(label, language)
     +aside-wrapper(label)
         +code(false, language).o-no-block
             block
+
+
+//- Infobox
+    label - [string] infobox title (optional or false for no title)
+
+mixin infobox(label)
+    aside.o-box.o-block.u-text-small
+        if label
+            h3.u-text-label.u-color-theme=label
+
+        block
 
 
 //- Link button
@@ -187,8 +206,8 @@ mixin table(head)
 
 //- Table row (only used within +table)
 
-mixin row()
-    tr.c-table__row&attributes(attributes)
+mixin row(...style)
+    tr.c-table__row(class=prefixArgs(style, "c-table__row"))&attributes(attributes)
         block
 
 
@@ -272,3 +291,39 @@ mixin card-item(title, details)
         if details.author
             br
             span.u-text-small.u-color-subtle by #{details.author}
+
+
+//- Table row for models table
+
+mixin model-row(name, lang, procon, size, license, default_model, divider)
+    - var licenses = { "CC BY-SA": "https://creativecommons.org/licenses/by-sa/3.0/", "CC BY-NC": "https://creativecommons.org/licenses/by-nc/3.0/" }
+
+    +row(divider ? "divider": null)
+        +cell #[code=name]
+            if default_model
+                |  #[span.u-color-theme(title="default model") #[+icon("star", 16)]]
+        +cell=lang
+        each icon in procon
+            +cell.u-text-center #[+procon(icon ? "pro" : "con")]
+        +cell.u-text-right=size
+        +cell
+            if license in licenses
+                +a(licenses[license])=license
+
+
+//- Table rows for annotation specs
+
+mixin pos-row(tag, pos, morph, desc)
+    +row
+        +cell #[code=tag]
+        +cell #[code=pos]
+        +cell
+            each m in morph.split(" ")
+                if m
+                    |  #[code=m]
+        +cell.u-text-small=desc
+
+mixin dep-row(label, desc)
+    +row
+        +cell #[code=label]
+        +cell=desc
