@@ -671,6 +671,7 @@ def write_binary_vectors(in_loc, out_loc):
     with bz2.BZ2File(in_loc, 'r') as file_:
         for line in file_:
             pieces = line.split()
+            
             if pieces:
                 word = pieces.pop(0)
                 mem = Address(len(pieces), sizeof(float))
